@@ -34,7 +34,9 @@ async function fetchMDex(path) {
 
 // URL directa para portadas (GitHub Pages no necesita proxy)
 function proxyCover(mangaId, filename) {
-  return `${MDEX_COVERS}/${mangaId}/${filename}.512.jpg`.replace(".jpg.512.jpg", ".512.jpg");
+  // filename ya incluye .jpg, solo agregar .512.jpg al final
+  const base = filename.endsWith('.jpg') ? filename.slice(0, -4) : filename;
+  return `${MDEX_COVERS}/${mangaId}/${base}.512.jpg`;
 }
 
 // URL directa para páginas del lector
