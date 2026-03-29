@@ -19,14 +19,23 @@ const CORS_PROXIES = [
 
 async function fetchMDex(path) {
   const url = `${MDEX_BASE}${path}`;
+  // Intentar directo primero
   try {
     const res = await fetch(url);
     if (res.ok) return res.json();
   } catch(_) {}
-  for (const proxy of CORS_PROXIES) {
+  // Proxies en orden — allorigins primero para URLs largas
+  const proxies = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+  for (const p of proxies) {
     try {
-      const res = await fetch(proxy(url));
-      if (res.ok) return res.json();
+      const res = await fetch(p);
+      if (res.ok) {
+        const text = await res.text();
+        return JSON.parse(text);
+      }
     } catch(_) {}
   }
   throw new Error('No se pudo conectar con MangaDex');
