@@ -167,15 +167,21 @@ function showSection(name) {
 }
 
 /* ════════════════════════════
-   TRENDING (Jikan/MAL)
+   TRENDING (MangaDex)
 ════════════════════════════ */
 async function loadTrending() {
   try {
-    const res  = await fetch(`${JIKAN}/top/manga?limit=18&type=manga`);
-    const data = await res.json();
+    const params = new URLSearchParams();
+    params.append('limit', 18);
+    params.append('offset', 0);
+    params.append('includes[]', 'cover_art');
+    params.append('order[followedCount]', 'desc');
+    params.append('contentRating[]', 'safe');
+    params.append('contentRating[]', 'suggestive');
+    const data = await fetchMDex(`/manga?${params}`);
     renderTrending(data.data || []);
   } catch (err) {
-    console.error('Jikan error:', err);
+    console.error('Trending error:', err);
     document.getElementById('trending-grid').innerHTML =
       '<p style="color:var(--text-dim);grid-column:1/-1;text-align:center">No se pudo cargar el trending. Intenta de nuevo.</p>';
   }
@@ -185,17 +191,22 @@ function renderTrending(list) {
   const grid = document.getElementById('trending-grid');
   grid.innerHTML = '';
   list.forEach((item, i) => {
-    const score = item.score ? item.score.toFixed(1) : '—';
-    const img   = item.images?.jpg?.large_image_url || item.images?.jpg?.image_url || '';
-    const type  = item.type || 'Manga';
-    const card  = buildCard({
-      id:     `jikan-${item.mal_id}`,
-      title:  item.title,
-      cover:  img,
-      score,
+    const title     = item.attributes.title.en
+                   || Object.values(item.attributes.title)[0]
+                   || 'Sin título';
+    const coverRel  = item.relationships?.find(r => r.type === 'cover_art');
+    const coverFile = coverRel?.attributes?.fileName;
+    const cover     = coverFile ? proxyCover(item.id, coverFile) : '';
+    const type      = item.attributes.originalLanguage === 'ko' ? 'Manhwa'
+                    : item.attributes.originalLanguage === 'zh' ? 'Manhua' : 'Manga';
+    const card = buildCard({
+      id:     item.id,
+      title,
+      cover,
+      score:  '—',
       type,
       rank:   `#${i + 1}`,
-      source: 'jikan',
+      source: 'mangadex',
       raw:    item,
     });
     grid.appendChild(card);
