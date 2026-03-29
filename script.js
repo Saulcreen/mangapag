@@ -504,12 +504,18 @@ async function openModal({ id, title, cover, score, type, source, tags, raw }) {
     </div>
   `;
 
-  document.getElementById('modal-fav-btn').addEventListener('click', () => {
+  const favBtn = document.getElementById('modal-fav-btn');
+  const newFavBtn = favBtn.cloneNode(true);
+  favBtn.parentNode.replaceChild(newFavBtn, favBtn);
+  newFavBtn.addEventListener('click', () => {
     toggleFavorite({ id, title, cover, type }, document.getElementById('modal-fav-btn'), true);
   });
 
   if (canRead) {
-    document.getElementById('modal-read-btn').addEventListener('click', () => {
+    const readBtn = document.getElementById('modal-read-btn');
+    const newReadBtn = readBtn.cloneNode(true);
+    readBtn.parentNode.replaceChild(newReadBtn, readBtn);
+    newReadBtn.addEventListener('click', () => {
       closeModal();
       openReader(mdexId || id, title);
     });
