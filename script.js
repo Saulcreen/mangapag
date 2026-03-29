@@ -566,8 +566,7 @@ async function openReader(mangaId, title) {
     params.append('translatedLanguage[]', 'es');
     params.append('translatedLanguage[]', 'en');
     params.append('order[chapter]', 'asc');
-    params.append('limit', '500');
-    params.append('includes[]', 'scanlation_group');
+    params.append('limit', '100');
 
     const data = await fetchMDex(`/chapter?${params}`);
     let chapters = data.data || [];
