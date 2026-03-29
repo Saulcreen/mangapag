@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KuroManga — Tu Universo de Manga</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="particles"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-symbol">巻</span>
+      <span class="logo-text">KuroManga</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-section="home">Inicio</a>
+      <a href="#" class="nav-link" data-section="search">Explorar</a>
+      <a href="#" class="nav-link" data-section="favorites">Favoritos</a>
+      <a href="#" class="nav-link" data-section="history">Historial</a>
+    </div>
+    <div class="nav-search-bar">
+      <input type="text" id="nav-search-input" placeholder="Buscar manga..." />
+      <button id="nav-search-btn">⚔</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="section-home">
+    <div class="hero-bg-text">MANGA</div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Tu universo de lectura ✦</p>
+      <h1 class="hero-title">Manga · Manhwa<br/><span class="hero-accent">& Manhua</span></h1>
+      <p class="hero-desc">Miles de títulos. Guarda favoritos. Lee sin límites.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="showSection('search')">Explorar Ahora</button>
+        <button class="btn-secondary" onclick="showSection('search')">Ver Populares</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">50K+</span><span class="stat-label">Títulos</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat-item"><span class="stat-num">∞</span><span class="stat-label">Capítulos</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Gratis</span></div>
+    </div>
+  </section>
+
+  <!-- TRENDING -->
+  <section class="section-block" id="section-trending">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-ornament">⬥</span>
+        <h2 class="section-title">Trending en MyAnimeList</h2>
+        <span class="section-ornament">⬥</span>
+      </div>
+      <p class="section-sub">Los más populares del momento según MAL</p>
+    </div>
+    <div class="card-grid" id="trending-grid">
+      <div class="skeleton-card"></div><div class="skeleton-card"></div>
+      <div class="skeleton-card"></div><div class="skeleton-card"></div>
+      <div class="skeleton-card"></div><div class="skeleton-card"></div>
+    </div>
+  </section>
+
+  <!-- EXPLORE / SEARCH -->
+  <section class="section-block hidden-section" id="section-search">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-ornament">⬥</span>
+        <h2 class="section-title">Explorar</h2>
+        <span class="section-ornament">⬥</span>
+      </div>
+    </div>
+    <div class="filters-wrap">
+      <div class="genre-bar" id="genre-bar">
+        <button class="genre-pill active" data-genre="">Todos</button>
+        <button class="genre-pill" data-genre="action">Acción</button>
+        <button class="genre-pill" data-genre="romance">Romance</button>
+        <button class="genre-pill" data-genre="fantasy">Fantasía</button>
+        <button class="genre-pill" data-genre="horror">Terror</button>
+        <button class="genre-pill" data-genre="comedy">Comedia</button>
+        <button class="genre-pill" data-genre="drama">Drama</button>
+        <button class="genre-pill" data-genre="sci-fi">Sci-Fi</button>
+        <button class="genre-pill" data-genre="sports">Deportes</button>
+        <button class="genre-pill" data-genre="psychological">Psicológico</button>
+        <button class="genre-pill" data-genre="slice of life">Slice of Life</button>
+        <button class="genre-pill" data-genre="adventure">Aventura</button>
+      </div>
+      <div class="type-bar">
+        <button class="type-btn active" data-type="">Todos</button>
+        <button class="type-btn" data-type="manga">🇯🇵 Manga</button>
+        <button class="type-btn" data-type="manhwa">🇰🇷 Manhwa</button>
+        <button class="type-btn" data-type="manhua">🇨🇳 Manhua</button>
+      </div>
+      <div class="search-row">
+        <input type="text" id="search-input" placeholder="Buscar por título..." class="search-input"/>
+        <button class="btn-search" id="search-btn">Buscar</button>
+      </div>
+    </div>
+    <div class="card-grid" id="search-grid"></div>
+    <div id="search-empty" class="empty-state" style="display:none">
+      <span class="empty-icon">⚔️</span>
+      <p>No se encontraron resultados. Intenta con otro título o género.</p>
+    </div>
+    <div class="pagination" id="pagination" style="display:none">
+      <button id="prev-btn" class="pag-btn">← Anterior</button>
+      <span id="page-info" class="page-info">Página 1</span>
+      <button id="next-btn" class="pag-btn">Siguiente →</button>
+    </div>
+  </section>
+
+  <!-- FAVORITES -->
+  <section class="section-block hidden-section" id="section-favorites">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-ornament">⬥</span>
+        <h2 class="section-title">Mis Favoritos</h2>
+        <span class="section-ornament">⬥</span>
+      </div>
+    </div>
+    <div class="card-grid" id="favorites-grid"></div>
+    <div id="fav-empty" class="empty-state">
+      <span class="empty-icon">★</span>
+      <p>Aún no tienes favoritos.<br/>Agrega mangas pulsando el ícono <strong>★</strong> en cada tarjeta.</p>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="section-block hidden-section" id="section-history">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-ornament">⬥</span>
+        <h2 class="section-title">Historial de Lectura</h2>
+        <span class="section-ornament">⬥</span>
+      </div>
+      <button class="btn-clear" id="clear-history-btn">Limpiar todo</button>
+    </div>
+    <div class="history-list" id="history-list"></div>
+    <div id="history-empty" class="empty-state">
+      <span class="empty-icon">📜</span>
+      <p>Tu historial está vacío.<br/>Al abrir el detalle de un manga, se guardará aquí.</p>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-inner" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- READER -->
+  <div id="reader-overlay" class="reader-overlay">
+    <div class="reader-topbar">
+      <button class="reader-close-btn" id="reader-close">✕ Cerrar</button>
+      <span class="reader-title" id="reader-title"></span>
+      <select class="reader-chapter-select" id="reader-chapter-select"></select>
+    </div>
+    <div class="reader-img-wrap" id="reader-img-wrap">
+      <div class="reader-loading" id="reader-loading">
+        <div class="reader-spinner"></div>
+        <span id="reader-status">Cargando...</span>
+      </div>
+      <img class="reader-img" id="reader-img" alt="Página" />
+    </div>
+    <div class="reader-bottombar">
+      <button class="reader-btn" id="reader-prev-chap">⏮ Cap. anterior</button>
+      <button class="reader-btn" id="reader-prev-page">← Página anterior</button>
+      <span class="reader-page-info" id="reader-page-info"></span>
+      <button class="reader-btn" id="reader-next-page">Siguiente página →</button>
+      <button class="reader-btn" id="reader-next-chap">Cap. siguiente ⏭</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <footer class="footer">
+    <div class="footer-logo">
+      <span class="logo-symbol">巻</span>
+      <span class="logo-text">KuroManga</span>
+    </div>
+    <p class="footer-credits">Datos provistos por <a href="https://mangadex.org" target="_blank">MangaDex API</a> &amp; <a href="https://jikan.moe" target="_blank">Jikan / MyAnimeList</a></p>
+    <p class="footer-sub">Forjado con ⚔️ para los verdaderos lectores</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
